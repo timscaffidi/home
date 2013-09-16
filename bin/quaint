@@ -1,0 +1,12 @@
+#!/bin/bash
+function get_branch {
+        git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \1/'
+}
+
+BRANCH=`get_branch`
+
+git checkout qa
+git pull
+git pull synapps $BRANCH
+git push synapps qa
+git checkout -

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+client=$(echo "$SSH_CLIENT" | awk '{print $1}')
+ssh "$client" "'sublime2'"
