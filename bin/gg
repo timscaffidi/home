@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o xtrace;
+cd ~/repos;
+git clone git01:/repos/"$1";
+cd ~/repos/"$1";
+git remote add synapps git01:/projects/synapps/"$1";
+git fetch synapps;
+# git checkout -b "$2";
+slink;
+set +o xtrace;
