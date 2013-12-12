@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export TMPDIR=~/tmp
+
+git difftool "$@" -d -x local_diff

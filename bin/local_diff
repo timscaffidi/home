@@ -1,0 +1,9 @@
+#!/bin/bash
+hostname=$(hostname);
+
+cmd="opendiff";
+for ARG in "$@"
+do
+	cmd="$cmd ~/Remote/$hostname${ARG#$HOME}";
+done
+local_run "$cmd";
