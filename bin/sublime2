@@ -1,4 +1,13 @@
 #!/bin/sh
 
-client=$(echo "$SSH_CLIENT" | awk '{print $1}')
-ssh "$client" "'sublime2'"
+hostname=$(hostname);
+cur_dir=$(pwd);
+usr_dir=$(echo ${cur_dir#$HOME});
+
+cmd="sublime2";
+for ARG in "$@"
+do
+	cmd="$cmd ~/Remote/$hostname$usr_dir/$ARG";
+done
+
+local_run "$cmd";

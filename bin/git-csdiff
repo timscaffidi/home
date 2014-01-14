@@ -1,0 +1,15 @@
+#!/bin/bash
+gdm=$(git diff $@ --name-only --diff-filter=AM);
+
+for f in $gdm; do 
+	response="r"
+	while [ $response = "r" ]; do
+		echo $f;
+		cs $f;
+		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
+		echo "";
+		if [ $response = "q" ]; then
+			exit;
+		fi
+	done
+done

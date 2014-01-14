@@ -6,9 +6,10 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
-export PATH=$PATH:$HOME/bin/synacor-work/bin/
+#export PATH=$PATH:$HOME/bin/synacor-work/bin/
 
 alias fixssh='source ~/bin/sshvars'
+alias slink='sudo synacor-dev link -u'
 
 # If id command returns zero, you’ve root access.
 if [ $(id -u) -eq 0 ];

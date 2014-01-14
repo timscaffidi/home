@@ -1,0 +1,8 @@
+#!/bin/sh
+
+hostname=$(hostname);
+cur_dir=$(pwd);
+usr_dir=$(echo ${cur_dir#$HOME});
+
+local_run "cd ~/Remote/$hostname$usr_dir/; /usr/local/bin/gitx&";
+

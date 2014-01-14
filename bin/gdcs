@@ -1,9 +1,12 @@
 #!/bin/bash
 
-gdm=$(git diff --name-only);
+gdm=$(git diff $@ --name-only --diff-filter=AM);
 
 for f in $gdm; do 
 	echo $f;
 	cs $f;
-	$(read -p "Pres any key to continue..." -n1 -s);
+	response=$(read -p "(r)echeck, (q)uit, any other key to continue..." -n1 -s);
+	if $response == "q"
+		exit;
+	fi
 done

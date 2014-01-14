@@ -1,8 +1,8 @@
 ---
 team:
   name: Platform Tools
-  members: [sbiddle, jburke, nmeng, tscaffidi, jtill]
+  members: [sbiddle, tscaffidi, jtill, pminkler, spotts, senglert]
   email: platform-tools@synacor.com
 jira:
   project: SYNAP
-  current_sprint: Synapps Sprint 85
+  current_sprint: Synapps Sprint 94
