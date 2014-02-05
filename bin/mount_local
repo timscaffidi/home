@@ -1,0 +1,7 @@
+#!/bin/sh
+
+source ~/bin/sshvars;
+
+client=$(echo "$SSH_CLIENT" | awk '{print $1}')
+connect=$(ssh "$client" "open ~/Remote/$(hostname)/connect.command");
+
