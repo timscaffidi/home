@@ -1,0 +1,34 @@
+#!/usr/bin/php
+
+<?php
+
+// convert json service log stuff to curl calls
+
+while(!feof(STDIN))
+{
+	$line = trim(fgets(STDIN));
+	if (empty($line)) continue;
+	$service_log = json_decode($line, TRUE);
+
+	$type = 'GET';
+	if(isset($service_log['instance_curl_options']['CURLOPT_CUSTOMREQUEST']))
+		$type = $service_log['instance_curl_options']['CURLOPT_CUSTOMREQUEST'];
+	$data = $service_log['instance_curl_options']['CURLOPT_POSTFIELDS'];
+	$url = $service_log['url'];
+	$headers = array();
+	if(isset($service_log['global_curl_options']['CURLOPT_HTTPHEADER']) && is_array($service_log['global_curl_options']['CURLOPT_HTTPHEADER']))
+	{
+		$headers = $service_log['global_curl_options']['CURLOPT_HTTPHEADER'];
+	}
+
+	$curl = "curl -v -X$type";
+	foreach ($headers as $header)
+	{
+		$curl .= " -H'$header'";
+	}
+	$curl .= " '$url'";
+	if(!empty($data))
+		$curl .= " -d'$data'";
+	print $curl;
+	print "\n";
+}
