@@ -1,1 +1,1 @@
-mount_local; grabssh; screen -raAd -R
+grabssh; mount_local; grabssh; screen -raAd -R
