@@ -9,7 +9,7 @@ fi
 #export PATH=$PATH:$HOME/bin/synacor-work/bin/
 
 alias fixssh='source ~/bin/sshvars'
-alias slink='sudo synacor-dev link -u'
+alias hsearch='history | grep'
 
 # If id command returns zero, you’ve root access.
 if [ $(id -u) -eq 0 ];
