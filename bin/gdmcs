@@ -1,9 +1,0 @@
-#!/bin/bash
-
-gdm=$(git diff --name-only master...);
-
-for f in $gdm; do 
-	echo $f;
-	cs $f;
-	$(read -p "Pres any key to continue..." -n1 -s);
-done
