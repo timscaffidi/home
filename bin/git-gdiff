@@ -1,5 +1,5 @@
 #!/bin/sh
 
 export TMPDIR=~/tmp
-
+echo "git difftool \"$@\" -d -x local_diff";
 git difftool "$@" -d -x local_diff

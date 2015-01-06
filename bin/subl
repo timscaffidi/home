@@ -4,7 +4,7 @@ hostname=$(hostname);
 cur_dir=$(pwd);
 usr_dir=$(echo ${cur_dir#$HOME});
 
-cmd="sublime2";
+cmd="subl";
 for ARG in "$@"
 do
 	cmd="$cmd ~/Remote/$hostname$usr_dir/$ARG";

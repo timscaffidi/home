@@ -1,11 +1,66 @@
 #!/bin/bash
-gdm=$(git diff $@ --name-only --diff-filter=AM);
+echo "Checking PHP files..."; echo "";
+gdm=$(git diff $@ --name-only --diff-filter=AM | grep .php);
 
-for f in $gdm; do 
+for f in $gdm; do
 	response="r"
 	while [ "$response" = "r" ]; do
 		echo $f;
-		cs $f;
+		echo "Checking for errors...";
+		php -l "$f";
+		echo "Checking formatting...";
+		php-cs-fixer fix --dry-run --diff -vvv "$f";
+		read -p "(f)ix, (r)echeck, (q)uit, any other key to continue... " -n1 response;
+		echo "";
+		if [ "$response" = "q" ]; then
+			exit;
+		fi
+		if [ "$response" = "f" ]; then
+			php-cs-fixer fix -vvv $f;
+		fi
+	done
+done
+
+echo "Checking JavaScript files..."; echo "";
+gdm=$(git diff $@ --name-only --diff-filter=AM | grep .js);
+
+for f in $gdm; do
+	response="r"
+	while [ "$response" = "r" ]; do
+		echo $f;
+		jshint "$f";
+		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
+		echo "";
+		if [ "$response" = "q" ]; then
+			exit;
+		fi
+	done
+done
+
+echo "Checking twig template files..."; echo "";
+gdm=$(git diff $@ --name-only --diff-filter=AM | grep .twig);
+
+for f in $gdm; do
+	response="r"
+	while [ "$response" = "r" ]; do
+		echo $f;
+		twig-lint lint "$f";
+		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
+		echo "";
+		if [ "$response" = "q" ]; then
+			exit;
+		fi
+	done
+done
+
+echo "Checking CSS files..."; echo "";
+gdm=$(git diff $@ --name-only --diff-filter=AM | grep .css);
+
+for f in $gdm; do
+	response="r"
+	while [ "$response" = "r" ]; do
+		echo $f;
+		csslint --warnings='known-properties,empty-rules' "$f";
 		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
 		echo "";
 		if [ "$response" = "q" ]; then

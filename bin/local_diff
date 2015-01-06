@@ -6,4 +6,5 @@ for ARG in "$@"
 do
 	cmd="$cmd ~/Remote/$hostname${ARG#$HOME}";
 done
+echo "local_run \"$cmd\"";
 local_run "$cmd";

@@ -6,10 +6,11 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
-#export PATH=$PATH:$HOME/bin/synacor-work/bin/
+export PATH=$PATH:$HOME/bin/
 
 alias fixssh='source ~/bin/sshvars'
 alias hsearch='history | grep'
+alias cs='php-cs-fixer fix --dry-run --diff -vvv'
 
 # If id command returns zero, you’ve root access.
 if [ $(id -u) -eq 0 ];

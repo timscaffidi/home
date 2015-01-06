@@ -1,0 +1,3 @@
+#!/bin/sh
+
+git diff "$@" --name-only --diff-filter=AM | sed 's/ *\(.*\) *$/"\1"/' | xargs -d'\n' subl
