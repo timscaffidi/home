@@ -20,3 +20,5 @@
 	whitespace = white reverse
 [format]
 	pretty = format:%h %Cblue %ci %Cgreen %an %Creset %s
+[push]
+	default = simple

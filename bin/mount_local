@@ -2,5 +2,6 @@
 source ~/bin/user_vars;
 source ~/bin/sshvars;
 client=$(echo "$SSH_CLIENT" | awk '{print $1}')
-connect=$(ssh "$REMOTE_USER@$client" "~$local_user/Remote/$(hostname)/connect.command");
+ssh "$REMOTE_USER@$client" "~$local_user/Remote/$(hostname)/connect.command";
+exit;
 

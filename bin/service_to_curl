@@ -8,26 +8,23 @@ while(!feof(STDIN))
 {
 	$line = trim(fgets(STDIN));
 	if (empty($line)) continue;
-	$service_log = json_decode($line, TRUE);
+	$service_log = json_decode($line, true);
 
-	$type = 'GET';
-	if(isset($service_log['instance_curl_options']['CURLOPT_CUSTOMREQUEST']))
-		$type = $service_log['instance_curl_options']['CURLOPT_CUSTOMREQUEST'];
-	$data = $service_log['instance_curl_options']['CURLOPT_POSTFIELDS'];
-	$url = $service_log['url'];
-	$headers = array();
-	if(isset($service_log['global_curl_options']['CURLOPT_HTTPHEADER']) && is_array($service_log['global_curl_options']['CURLOPT_HTTPHEADER']))
-	{
-		$headers = $service_log['global_curl_options']['CURLOPT_HTTPHEADER'];
-	}
+	$type = $service_log['context']['method'];
+	$data = $service_log['context']['request_body'];
+	$url = $service_log['context']['uri'];
+	$headers = $service_log['context']['request_headers'];
 
 	$curl = "curl -v -X$type";
-	foreach ($headers as $header)
+	foreach ($headers as $header_name => $header_value)
 	{
-		$curl .= " -H'$header'";
+		$curl .= " -H'$header_name: " . implode(',',$header_value) . "'";
 	}
 	$curl .= " '$url'";
 	if(!empty($data))
+		if (is_array($data)) {
+			$data = json_encode($data);
+		}
 		$curl .= " -d'$data'";
 	print $curl;
 	print "\n";

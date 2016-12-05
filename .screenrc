@@ -1,12 +1,11 @@
+chdir /var/log
 screen -t logs
-screen -t sw
-chdir $HOME/repos/Admin
+screen -t logs2
+chdir $HOME/repos
 screen -t git
 chdir
 screen -t curl
 screen -t ssh
-chdir /usr/local/apache/htdocs/unittests
-screen -t unittests
 chdir
 screen -t bash
 screen -t bash
@@ -22,4 +21,3 @@ termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 defbce "on"
 
 hardstatus alwayslastline "%{= kw}[ %{= kb}%{r}%{= kw} ][%= %{= kw}%?%-Lw%?%{= kG}%n*%f %t%?%?%{= kw}%?%+Lw%?%?%= ]%{= kw}%{w}[%{y} %y-%m-%d %c %{y}%{w}]%{w}"
-

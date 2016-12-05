@@ -1,70 +1,39 @@
 #!/bin/bash
-echo "Checking PHP files..."; echo "";
-gdm=$(git diff $@ --name-only --diff-filter=AM | grep .php);
+red=`tput setaf 1`;
+green=`tput setaf 2`;
+yellow=`tput setaf 3`;
+reset=`tput sgr0`;
 
-for f in $gdm; do
-	response="r"
-	while [ "$response" = "r" ]; do
-		echo $f;
-		echo "Checking for errors...";
-		php -l "$f";
-		echo "Checking formatting...";
-		php-cs-fixer fix --dry-run --diff -vvv "$f";
-		read -p "(f)ix, (r)echeck, (q)uit, any other key to continue... " -n1 response;
+files=$(git diff $@ --name-only --diff-filter=AM);
+
+for file in $files; do
+
+		response="r";
+		while [ "$response" == "r" ]; do
+
+			css_code_scanner "$file";
+			return_code=$?;
+
+			if (($return_code == 0)) ; then
+				break;
+			fi
+
+			if (($return_code == 1)); then
+				read -p "ERRORS DETECTED: ${yellow}(r)${reset}echeck, ${red}(q)${reset}uit, any other key to continue... " -n1 response;
+				echo "";
+			elif (($return_code == 2)); then
+				read -p "ERRORS DETECTED: ${green}(f)${reset}ix, ${yellow}(r)${reset}echeck, ${red}(q)${reset}uit, any other key to continue... " -n1 response;
+				echo "";
+
+				if [ "$response" == "f" ]; then
+					phpcbf "$file";
+					response="r";
+				fi
+			fi
+
+			if [ "$response" == "q" ]; then
+				exit;
+			fi
+		done
 		echo "";
-		if [ "$response" = "q" ]; then
-			exit;
-		fi
-		if [ "$response" = "f" ]; then
-			php-cs-fixer fix -vvv $f;
-		fi
-	done
-done
-
-echo "Checking JavaScript files..."; echo "";
-gdm=$(git diff $@ --name-only --diff-filter=AM | grep .js);
-
-for f in $gdm; do
-	response="r"
-	while [ "$response" = "r" ]; do
-		echo $f;
-		jshint "$f";
-		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
-		echo "";
-		if [ "$response" = "q" ]; then
-			exit;
-		fi
-	done
-done
-
-echo "Checking twig template files..."; echo "";
-gdm=$(git diff $@ --name-only --diff-filter=AM | grep .twig);
-
-for f in $gdm; do
-	response="r"
-	while [ "$response" = "r" ]; do
-		echo $f;
-		twig-lint lint "$f";
-		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
-		echo "";
-		if [ "$response" = "q" ]; then
-			exit;
-		fi
-	done
-done
-
-echo "Checking CSS files..."; echo "";
-gdm=$(git diff $@ --name-only --diff-filter=AM | grep .css);
-
-for f in $gdm; do
-	response="r"
-	while [ "$response" = "r" ]; do
-		echo $f;
-		csslint --warnings='known-properties,empty-rules' "$f";
-		read -p "(r)echeck, (q)uit, any other key to continue... " -n1 response;
-		echo "";
-		if [ "$response" = "q" ]; then
-			exit;
-		fi
-	done
 done
